@@ -4,7 +4,19 @@
 </head>
 
 <body>
-    Hello World!
+    <div style="text-align: center; padding-top: 10%;">
+        <input id="field" type="text" size="40">
+        <a id="tag" style="padding-left: 16px;">Delete Text</a>
+    </div>
 </body>
+
+<script>
+    let tag = document.getElementById("tag");
+    let field = document.getElementById("field");
+    tag.ondblclick = function() {
+        let message = field.value.substring(0, field.value.lastIndexOf(" "));
+        field.value = message;
+    };
+</script>
 
 </html>
