@@ -8,7 +8,7 @@ var fs = require("fs");
 http.createServer(function (request, response) {
     console.log("Request received");
     //загрузка html страницы из файловой системы
-    var page = fs.readFileSync('HelloWorld.html');
+    var page = fs.readFileSync('index.html');
     //запись в ответ заголовка с указанием кода состояния, и типа возвращаемого контента
     response.writeHead(200, { 'Content-Type': 'text/html' });
     //тело ответа
