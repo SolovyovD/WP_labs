@@ -15,9 +15,8 @@ function start() {
                     sum += Number(parsed_sp[key]);
                 }
             }
+            if(sum == 0){sum = "Error!";}
             console.log("Result = " + sum);
-        }
-        if (sum != 0) {
             response.write(sum.toString());
             response.end();
             return;
