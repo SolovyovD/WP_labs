@@ -1,25 +1,20 @@
-function start() {
+var exec = require("child_process").exec;
+
+function start(response) {
     console.log("Request handler 'start' was called.");
+    exec("ls -lah", function (error, stdout, stderr) {
+        response.writeHead(200, { "Content-Type": "text/plain" });
+        response.write(stdout);
+        response.end();
+    });
 }
 
-function upload() {
+function upload(response) {
     console.log("Request handler 'upload' was called.");
-}
-
-function first() {
-    console.log("Request handler 'first' was called.");
-}
-
-function second() {
-    console.log("Request handler 'second' was called.");
-}
-
-function third() {
-    console.log("Request handler 'third' was called.");
+    response.writeHead(200, { "Content-Type": "text/plain" });
+    response.write("Hello Upload");
+    response.end();
 }
 
 exports.start = start;
 exports.upload = upload;
-exports.first = first;
-exports.second = second;
-exports.third = third;
