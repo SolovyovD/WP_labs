@@ -1,10 +1,11 @@
-var server = require("./server");
-var router = require("./router");
-var requestHandlers = require("./requestHandlers");
+const express = require('express')
+const app = express()
+const port = 8888
 
-var handle = {}
-handle["/"] = requestHandlers.start;
-handle["/start"] = requestHandlers.start;
-handle["/upload"] = requestHandlers.upload;
+app.use(express.static('images'));
+app.use(express.urlencoded());
+app.use(require('./api'))
 
-server.start(router.route, handle);
+app.listen(port, () => {
+    console.log(`Example app listening at http://localhost:${port}`);
+})
