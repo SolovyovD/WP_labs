@@ -28,7 +28,7 @@ router.get('/', (req, res) => {
         '<option>800х600</option>' +
         '<option>1280х960</option>' +
         '</select>' +
-        '<input pattern="[a-zA-Z]{1,8}\\s?\\d?" name="text">' +
+        '<input pattern="[a-zA-Z]{1,8}\\s?\\d?" name="text" required>' +
         '<input type="submit" value="Submit text" />' +
         '</form>' +
         '</body>' +
