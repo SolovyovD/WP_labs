@@ -35,12 +35,18 @@ router.get('/', (req, res) => {
         '</html>');
 })
 
+router.post('/test', (req, res) => {
+    res.send({ kek: 'that works' });
+})
+
 router.post('/getPicture', (req, res) => {
     let splitSizes;
     if (req.body.sizeSelector == 'Выберите размер') {
         splitSizes = sizes[getRandomInt(0, 2)].split('x');
     }
-    else { splitSizes = req.body.sizeSelector.split('х'); }
+    else {
+        splitSizes = req.body.sizeSelector.split('х');
+    }
     let params = {
         name: req.body.text.trim().split(' '),
         color: req.body.colorSelector,
@@ -50,8 +56,10 @@ router.post('/getPicture', (req, res) => {
         },
         image: 'default',
     }
-    if (params.name[0] != 'kaban' | 'kalmar' | 'kakadu') {
-        res.send('not found');
+    if (params.name[0] != 'kaban' &
+        params.name[0] != 'kalmar' &
+        params.name[0] != 'kakadu') {
+        res.send({ name: 'not found' });
         return;
     }
     if (typeof params.name[1] === 'undefined') {
@@ -67,7 +75,7 @@ router.post('/getPicture', (req, res) => {
 router.get('/picture/:name/:id/:color/:size', (req, res) => {
     let splitSizes;
     if (req.params.size == '400x600' || '800x600' || '1280x960') {
-        splitSizes = req.params.size.split('x');
+        splitSizes = req.params.size.split('х');
     }
     else { splitSizes = sizes[getRandomInt(0, 2)].split('x'); }
     let imageParams = {
@@ -79,7 +87,7 @@ router.get('/picture/:name/:id/:color/:size', (req, res) => {
         },
         id: req.params.id
     }
-    if (!Number.isInteger(imageParams.id) || imageParams.id > 9) {
+    if (Number.isInteger(imageParams.id) || Number(imageParams.id) > 9) {
         imageParams.id = getRandomInt(0, 9);
     }
     if (imageParams.name != 'kaban' &&
@@ -93,17 +101,14 @@ router.get('/picture/:name/:id/:color/:size', (req, res) => {
         imageParams.color != 'orange') {
         imageParams.color = colors[getRandomInt(0, 2)];
     }
-    res.send('<html>' +
-        '<head>' +
-        '<meta http-equiv="Content-Type" content="text/html; ' +
-        'charset=UTF-8" />' +
-        '</head>' +
-        '<body style="background: ' + imageParams.color + ';">' +
-        '<image width="' + imageParams.size.width +
-        ' height="' + imageParams.size.height +
-        '" src="/' + imageParams.name + '/' + imageParams.name + '_' + imageParams.id + '.jpg">' +
-        '</body>' +
-        '</html>');
+    res.send({
+        page:
+            '<div style="background: ' + imageParams.color + ';">' +
+            '<image width="' + imageParams.size.width +
+            ' height="' + imageParams.size.height +
+            '" src="http://localhost:8888/' + imageParams.name + '/' + imageParams.name + '_' + imageParams.id + '.jpg">' +
+            '</div>'
+    });
 })
 
 module.exports = router;
