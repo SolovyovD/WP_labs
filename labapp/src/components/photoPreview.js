@@ -8,7 +8,7 @@ export default class PhotoPreview extends React.Component {
             color: 'Выберите цвет',
             size: 'Выберите размер',
             resultIsRecieved: false,
-            recievedPage: 'default'
+            recievedPage: ''
         };
     }
 
@@ -26,12 +26,12 @@ export default class PhotoPreview extends React.Component {
     }
 
     render() {
-        if (this.state.resultIsRecieved) {
-            return <div dangerouslySetInnerHTML={{__html: this.state.recievedPage}} />
-        }
         return (
             <div style={this.props.visible ? null : styles.body}>
-                <button onClick={event => this.recievePicture(event)} style={styles.button}>Отобразить картинку</button>
+                <div>
+                    <button onClick={event => this.recievePicture(event)} style={styles.button}>Отобразить картинку</button>
+                </div>
+                <div style={{marginTop: 24}} dangerouslySetInnerHTML={{ __html: this.state.recievedPage }} />
             </div>
         )
     }
