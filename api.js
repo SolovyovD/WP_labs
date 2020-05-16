@@ -23,7 +23,6 @@ router.post('/getPicture', (req, res) => {
     }
     else {
         splitSizes = req.body.sizeSelector.split('x');
-        console.log(req.body.sizeSelector);
     }
     let params = {
         name: req.body.text.trim().split(' '),

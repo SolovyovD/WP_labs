@@ -19,19 +19,13 @@
             <option value="1280x960">1280x960</option>
         </select>
         <input pattern="[a-zA-Z]{1,8}\s?\d?" id="text" required>
-        <input id="clickButton" type="submit" value="Дозаполнить форму" onclick="RecieveAnswer(event)" />
+        <input id="clickButton" type="submit" value="Получить картинку" onclick="RecieveAnswer(event)" />
     </form>
 </body>
 
 <script>
-    let state = {
-        name: 'default',
-        color: 'default',
-        size: 'default',
-        formIsFull: false,
-    };
     clickButton.addEventListener('keypress', RecieveAnswer);
-
+    let buttonIsPressed = false;
     function RecieveAnswer(event) {
         event.preventDefault();
         let reqBody = {
@@ -62,6 +56,33 @@
                 if (result.size.width === '400') { sizeSelector.value = '400x600' }
                 if (result.size.width === '800') { sizeSelector.value = '800x600' }
                 if (result.size.width === '1280') { sizeSelector.value = '1280x960' }
+
+                if (!buttonIsPressed) {
+                    let previewButton = document.createElement('button');
+                    let buttonContent = document.createTextNode('Отобразить картинку');
+                    previewButton.setAttribute('onclick', 'showPicture(event)')
+                    previewButton.appendChild(buttonContent);
+                    document.body.appendChild(previewButton);
+                    let pictureWrapper = document.createElement('div');
+                    pictureWrapper.setAttribute('id', 'pictureWrapper');
+                    document.body.appendChild(pictureWrapper);
+                    buttonIsPressed = true;
+                }
+            });
+    }
+    function showPicture(event) {
+        console.log('pressed');
+        fetch('http://localhost:8888/picture/' +
+            text.value.trim().split(' ')[0] + '/' +
+            text.value.trim().split(' ')[1] + '/' +
+            colorSelector.value + '/' +
+            sizeSelector.value, {
+            method: 'GET',
+        })
+            .then(response => response.json())
+            .then(result => {
+                console.log(result);
+                pictureWrapper.innerHTML = result.page;
             });
     }
 </script>
